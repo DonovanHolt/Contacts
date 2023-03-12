@@ -1,0 +1,69 @@
+#include <iostream>
+using namespace std;
+
+class ContactNode {
+public:
+   ContactNode (string Name, string PhoneNumber) {
+      contactName = Name;
+      contactPhoneNumber = PhoneNumber;
+      nextNodePtr = nullptr;
+   }
+string GetName () {
+   return contactName;
+}
+
+string GetPhoneNumber () {
+   return contactPhoneNumber;
+}
+
+void InsertAfter (ContactNode* nextNode) {
+   nextNodePtr = nextNode;
+}
+
+ContactNode* GetNext () {
+   return nextNodePtr;
+}
+
+void PrintContactNode() {
+   cout << "Name: " << contactName << endl;
+   cout << "Phone number: " << contactPhoneNumber << endl;
+}
+   
+private:
+   /* Declare data members here */
+   string contactName;
+   string contactPhoneNumber;
+   ContactNode* nextNodePtr;
+};
+
+/* Define member functions here */
+
+
+int main() {
+   /* Type your code here. */
+   ContactNode* headNode = nullptr;
+   ContactNode* tempNode = nullptr;
+   
+   string Name;
+   string PhoneNumber;
+   
+   cin >> Name >> PhoneNumber;
+   headNode = new ContactNode (Name, PhoneNumber);
+   
+   cin >> Name >> PhoneNumber;
+   tempNode = new ContactNode (Name, PhoneNumber);
+   headNode -> InsertAfter (tempNode);
+   
+   cin >> Name >> PhoneNumber;
+   tempNode = new ContactNode (Name, PhoneNumber);
+   headNode -> GetNext() -> InsertAfter (tempNode);
+   
+   cout << "CONTACT LIST" << endl;
+   tempNode = headNode;
+   
+   for (int x = 1; tempNode != nullptr; x++) {
+      cout << "Person " << x << ": " << tempNode -> GetName() << ", " << tempNode -> GetPhoneNumber () << endl;
+      tempNode = tempNode -> GetNext();
+   }
+   return 0;
+}
