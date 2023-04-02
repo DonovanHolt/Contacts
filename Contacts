@@ -1,69 +1,126 @@
 #include <iostream>
+// FIXME include vector library
+#include <vector>
 using namespace std;
+void outputRoster(const vector<int> &, const vector<int> &);
+void addPlayer(vector<int> &, vector<int> &);
+void removePlayer(vector<int> &, vector<int> &);
+void updatePlayerRating(const vector<int> &, vector<int> &);
+void outputPlayersAboveRating(const vector<int> &, const vector<int> &);
 
-class ContactNode {
-public:
-   ContactNode (string Name, string PhoneNumber) {
-      contactName = Name;
-      contactPhoneNumber = PhoneNumber;
-      nextNodePtr = nullptr;
-   }
-string GetName () {
-   return contactName;
+int main()
+{
+vector<int> jerseyNumber;
+vector<int> rating;
+int temp;
+for(int i = 1; i <= 5; i++)
+{
+cout<<"Enter player "<<i<<"'s jersey number: ";
+cin>>temp;
+jerseyNumber.push_back(temp);
+cout<<"Enter player "<<i<<"'s rating: ";
+cin>>temp;
+rating.push_back(temp);
+cout<<endl;
+}
+cout<<"ROSTER"<<endl;
+for (int i = 0; i < 5; i++)
+cout<<"Player "<<i+1<<" -- "<<"Jersey number: "<<jerseyNumber.at(i)<<", Rating: "<<rating.at(i)<<endl;
+char option;
+while(true)
+{
+cout<<"MENU"<<endl;
+cout<<"a - Add player"<<endl;
+cout<<"d - Remove player"<<endl;
+cout<<"u - Update player rating"<<endl;
+cout<<"r - Output players above a rating"<<endl;
+cout<<"o - Output roster"<<endl;
+cout<<"q - Quit"<<endl<<endl;
+cout<<"Choose an option: ";
+cin>>option;
+switch(option)
+{
+case 'a':
+case 'A':
+addPlayer(jerseyNumber, rating);
+break;
+case 'd':
+case 'D':
+removePlayer(jerseyNumber, rating);
+break;
+case 'u':
+case 'U':
+updatePlayerRating(jerseyNumber, rating);
+break;
+case 'r':
+case 'R':
+outputPlayersAboveRating(jerseyNumber, rating);
+break;
+case 'o':
+case 'O':
+outputRoster(jerseyNumber, rating);
+break;
+case 'q': return 0;
+default : cout<<"Invalid menu option. Try again."<<endl;
+}
+}
 }
 
-string GetPhoneNumber () {
-   return contactPhoneNumber;
+void outputRoster(const vector<int> &jerseyNumber, const vector<int> &rating)
+{
+cout<<"ROSTER"<<endl;
+for (int i = 0; i < jerseyNumber.size(); i++)
+cout<<"Player "<<i+1<<" -- "<<"Jersey number: "<<jerseyNumber.at(i)<<", Rating: "<<rating.at(i)<<endl;
 }
-
-void InsertAfter (ContactNode* nextNode) {
-   nextNodePtr = nextNode;
+void addPlayer(vector<int> &jerseyNumber, vector<int> &rating)
+{
+int temp;
+cout<<"Enter a new player's jersey number: ";
+cin>>temp;
+jerseyNumber.push_back(temp);
+cout<<"Enter the player's rating: ";
+cin>>temp;
+rating.push_back(temp);
 }
-
-ContactNode* GetNext () {
-   return nextNodePtr;
+void removePlayer(vector<int> &jerseyNumber, vector<int> &rating)
+{
+int temp;
+cout<<"Enter a jersey number: ";
+cin>>temp;
+int i;
+for(i = 0; i < jerseyNumber.size(); i++)
+{
+if(jerseyNumber.at(i) == temp)
+{
+jerseyNumber.erase (jerseyNumber.begin()+i);
+rating.erase(rating.begin()+i);
+break;
 }
-
-void PrintContactNode() {
-   cout << "Name: " << contactName << endl;
-   cout << "Phone number: " << contactPhoneNumber << endl;
 }
-   
-private:
-   /* Declare data members here */
-   string contactName;
-   string contactPhoneNumber;
-   ContactNode* nextNodePtr;
-};
-
-/* Define member functions here */
-
-
-int main() {
-   /* Type your code here. */
-   ContactNode* headNode = nullptr;
-   ContactNode* tempNode = nullptr;
-   
-   string Name;
-   string PhoneNumber;
-   
-   cin >> Name >> PhoneNumber;
-   headNode = new ContactNode (Name, PhoneNumber);
-   
-   cin >> Name >> PhoneNumber;
-   tempNode = new ContactNode (Name, PhoneNumber);
-   headNode -> InsertAfter (tempNode);
-   
-   cin >> Name >> PhoneNumber;
-   tempNode = new ContactNode (Name, PhoneNumber);
-   headNode -> GetNext() -> InsertAfter (tempNode);
-   
-   cout << "CONTACT LIST" << endl;
-   tempNode = headNode;
-   
-   for (int x = 1; tempNode != nullptr; x++) {
-      cout << "Person " << x << ": " << tempNode -> GetName() << ", " << tempNode -> GetPhoneNumber () << endl;
-      tempNode = tempNode -> GetNext();
-   }
-   return 0;
+}
+void updatePlayerRating(const vector<int> &jerseyNumber, vector<int> &rating)
+{
+int temp;
+cout<<"Enter a jersey number: ";
+cin>>temp;
+for(int i = 0; i < jerseyNumber.size(); i++)
+{
+if(jerseyNumber.at(i) == temp)
+{
+cout<<"Enter a new rating for player: ";
+cin>>temp;
+rating.at(i) = temp;
+break;
+}
+}
+}
+void outputPlayersAboveRating(const vector<int> &jerseyNumber, const vector<int> &rating)
+{
+int temp;
+cout<<"Enter a rating: ";
+cin>>temp;
+cout<<"\nABOVE "<<temp<<endl;
+for(int i = 0; i < jerseyNumber.size(); i++)
+if(rating.at(i) > temp)
+cout<<"Player "<<i+1<<" -- "<<"Jersey number: "<<jerseyNumber.at(i)<<", Rating: "<<rating.at(i)<<endl;
 }
